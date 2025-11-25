@@ -1,38 +1,34 @@
-events {}
+server {
+    listen $PORT default_server;
+    server_name _;
 
-http {
-    server {
-        listen $PORT default_server;
-        server_name _;
+    location /auth/ {
+        proxy_pass https://sexto-andar-auth-6def0cff0560.herokuapp.com/;
+        proxy_set_header Host sexto-andar-auth-6def0cff0560.herokuapp.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
 
-        location /auth/ {
-            proxy_pass https://sexto-andar-auth-6def0cff0560.herokuapp.com/;
-            proxy_set_header Host sexto-andar-auth-6def0cff0560.herokuapp.com;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
+    location /api/ {
+        proxy_pass https://sexto-andar-api-3ef30ad16a1f.herokuapp.com/;
+        proxy_set_header Host sexto-andar-api-3ef30ad16a1f.herokuapp.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
 
-        location /api/ {
-            proxy_pass https://sexto-andar-api-3ef30ad16a1f.herokuapp.com/;
-            proxy_set_header Host sexto-andar-api-3ef30ad16a1f.herokuapp.com;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
-
-        location / {
-            proxy_pass https://sexto-andar-web-9a6357fcb391.herokuapp.com/;
-            proxy_set_header Host sexto-andar-web-9a6357fcb391.herokuapp.com;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-        }
+    location / {
+        proxy_pass https://sexto-andar-web-9a6357fcb391.herokuapp.com/;
+        proxy_set_header Host sexto-andar-web-9a6357fcb391.herokuapp.com;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
     }
 }
