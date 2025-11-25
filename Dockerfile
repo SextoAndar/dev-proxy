@@ -1,6 +1,7 @@
 FROM nginx:alpine
-RUN apk add --no-cache gettext
-COPY nginx.conf /etc/nginx/nginx.conf.template
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
-CMD ["/start.sh"]
+
+# Copiar o template
+COPY nginx.conf.template /etc/nginx/conf.d/nginx.conf.template
+
+# Usar envsubst para substituir $PORT em runtime
+CMD /bin/sh -c "envsubst '\$PORT' < /etc/nginx/conf.d/nginx.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
